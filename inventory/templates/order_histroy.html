@@ -1,0 +1,40 @@
+{% extends 'customer_page.html' %}
+
+{% block title %}Order History - Uniform Management{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Your Order History</h1>
+
+    {% if orders %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Payment Method</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>#{{ order.id }}</td>
+                <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
+                <td>KSh {{ order.total_price }}</td>
+                <td>
+                    <span class="badge bg-{{ 'success' if order.status == 'COMPLETED' else 'warning' }}">
+                        {{ order.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ order.get_payment_method_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No orders found.</p>
+    {% endif %}
+</div>
+{% endblock %}

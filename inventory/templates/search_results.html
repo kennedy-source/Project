@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Search Results</h1>
+
+    <!-- Search Form -->
+    <form method="get" action="{% url 'search_uniform' %}" class="d-flex mb-4">
+        <input
+            type="text"
+            name="query"
+            value="{{ query }}"
+            class="form-control me-2"
+            placeholder="Search Uniforms"
+            aria-label="Search Uniforms">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {% if uniforms %}
+        <h2 class="mb-4">Results for: <span class="text-primary">"{{ query }}"</span></h2>
+
+        <!-- Results Table -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for uniform in uniforms %}
+                    <tr>
+                        <td>{{ uniform.name }}</td>
+                        <td>{{ uniform.category }}</td>
+                        <td>{{ uniform.size }}</td>
+                        <td>${{ uniform.price }}</td>
+                        <td>
+                            <a href="{% url 'edit_uniform' uniform.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No uniforms found for "<strong>{{ query }}</strong>".</p>
+    {% endif %}
+</div>
+{% endblock %}

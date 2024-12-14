@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Create an Order
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Create New Order</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row g-3">
+            <!-- Uniform Name -->
+            <div class="col-md-3">
+                <label for="uniform_name" class="form-label">Uniform Name</label>
+                <select class="form-select" id="uniform_name" name="uniform_name" required>
+                    <option value="" disabled selected>Select Uniform</option>
+                    {% for uniform in uniforms %}
+                        <option value="{{ uniform.id }}">{{ uniform.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Category (Auto-filled) -->
+            <div class="col-md-2">
+                <label for="category" class="form-label">Category</label>
+                <input type="text" class="form-control" id="category" name="category" required readonly>
+            </div>
+
+            <!-- Size (Auto-filled) -->
+            <div class="col-md-2">
+                <label for="size" class="form-label">Size</label>
+                <input type="text" class="form-control" id="size" name="size" required readonly>
+            </div>
+
+            <!-- Price (Auto-filled) -->
+            <div class="col-md-2">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" step="0.01" class="form-control" id="price" name="price" required readonly>
+            </div>
+
+            <!-- Quantity -->
+            <div class="col-md-2">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" required>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="col-md-2">
+                <label for="payment_method" class="form-label">Payment Method</label>
+                <select class="form-select" id="payment_method" name="payment_method" required>
+                    <option value="CASH">Cash</option>
+                    <option value="MPESA">M-Pesa</option>
+                </select>
+            </div>
+
+            <!-- Add Order Button -->
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-success mt-4">Create Order</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('uniform_name').addEventListener('change', function() {
+            var uniformId = this.value;
+
+            // Fetch uniform details with an Ajax call
+            fetch(`/get_uniform_details/${uniformId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('category').value = data.category;
+                    document.getElementById('size').value = data.size;
+                    document.getElementById('price').value = data.price;
+                })
+                .catch(error => console.error('Error fetching uniform details:', error));
+        });
+    </script>
+
+</div>
+{% endblock %}

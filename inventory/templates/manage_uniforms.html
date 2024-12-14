@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Uniforms{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Manage Uniforms</h1>
+
+    <div class="mb-4">
+        <a href="{% url 'add_uniform' %}" class="btn btn-primary">Add New Uniform</a>
+    </div>
+
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Uniform Name</th>
+                <th>Category</th>
+                <th>Size</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for uniform in uniforms %}
+            <tr>
+                <td>{{ uniform.name }}</td>
+                <td>{{ uniform.category }}</td>
+                <td>{{ uniform.size }}</td>
+                <td>KSh {{ uniform.price }}</td>
+                <td>{{ uniform.quantity }}</td>
+                <td>
+                    <a href="{% url 'edit_uniform' uniform.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'delete_uniform' uniform.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No uniforms available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

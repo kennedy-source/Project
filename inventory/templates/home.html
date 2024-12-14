@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4 text-center">Welcome to Uniform Management Admin Dashboard</h1>
+    <!--search-->
+    <div class="card shadow mb-5">
+        <div class="card-body">
+            <h4>Search Uniforms</h4>
+            <form method="get" action="{% url 'search_uniform' %}" class="d-flex mt-3">
+                <input type="text" name="query" placeholder="Search Uniforms" class="form-control me-3">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+    <!-- Analytics Section -->
+    <div class="row text-center mb-5">
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4>Total Orders</h4>
+                    <h2>{{ total_orders }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4>Completed Orders</h4>
+                    <h2>{{ completed_orders }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4>Total Revenue</h4>
+                    <h2>KSh {{ total_revenue }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Links Section -->
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h5>Manage Orders</h5>
+                    <p>Track and update all orders, including payment details and statuses.</p>
+                    <a href="{% url 'manage_orders' %}" class="btn btn-primary">View Orders</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h5>Manage Users</h5>
+                    <p>View and manage all registered users and their activities.</p>
+                    <a href="{% url 'manage_users' %}" class="btn btn-primary">Manage Users</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders Table -->
+    <div class="card shadow mb-5">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Recent Orders</h4>
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Payment Method</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in recent_orders %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.user.username }}</td>
+                        <td>{{ order.order_date|date:"Y-m-d H:i" }}</td>
+                        <td>{{ order.get_payment_method_display }}</td>
+                        <td>KSh {{ order.total_price }}</td>
+                        <td>
+                           {% if order.status == 'COMPLETED' %}
+                             <span class="badge bg-success">
+                                 {{ order.get_status_display }}
+                             </span>
+                           {% elif order.status == 'PENDING' %}
+                                <span class="badge bg-warning">
+                                    {{ order.get_status_display }}
+                                </span>
+                           {% else %}
+                                <span class="badge bg-danger">
+                                    {{ order.get_status_display }}
+                                </span>
+                           {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'manage_orders' %}" class="btn btn-sm btn-primary">View</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No recent orders available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+
+</div>
+{% endblock %}

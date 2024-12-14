@@ -1,0 +1,25 @@
+<!-- order_confirmation.html -->
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<h1>Order Confirmation</h1>
+
+<p>Thank you for your order! Your order number is <strong>{{ order.id }}</strong>.</p>
+
+<h3>Order Details:</h3>
+<ul>
+    <li>Shipping Address: {{ order.shipping_address }}</li>
+    <li>Total Price: KSh {{ order.total_price }}</li>
+    <li>Payment Method: {{ order.get_payment_method_display }}</li>
+    <li>Status: {{ order.get_status_display }}</li>
+</ul>
+
+<h3>Order Items:</h3>
+<ul>
+    {% for item in order.order_items.all %}
+    <li>{{ item.quantity }} x {{ item.uniform.name }} - KSh {{ item.price }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

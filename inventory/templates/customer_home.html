@@ -1,0 +1,32 @@
+{% extends 'customer_page.html' %}
+
+{% block title %}Home - Uniform Management{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Welcome to Uniform Management</h1>
+
+    <!-- Search Bar -->
+    <form method="get" action="{% url 'search_uniform' %}" class="d-flex mb-4">
+        <input type="text" name="query" class="form-control me-2" placeholder="Search uniforms..." aria-label="Search">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <!-- Uniform List -->
+    <div class="row">
+        {% for uniform in uniforms %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ uniform.image.url }}" class="card-img-top" alt="{{ uniform.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ uniform.name }}</h5>
+                    <p class="card-text">{{ uniform.category }} - Size: {{ uniform.size }}</p>
+                    <p class="card-text">KSh {{ uniform.price }}</p>
+                    <a href="{% url 'add_to_cart' uniform.id %}" class="btn btn-success">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

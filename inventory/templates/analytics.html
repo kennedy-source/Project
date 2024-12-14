@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Analytics{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">System Analytics</h1>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h2>{{ total_users }}</h2>
+                <p>Total Users</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h2>{{ total_uniforms }}</h2>
+                <p>Total Uniforms</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h2>{{ popular_items.count }}</h2>
+                <p>Most Popular Items</p>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card shadow text-center p-4">
+            <h2>{{ total_orders }}</h2>
+            <p>Total Orders</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow text-center p-4">
+            <h2>{{ completed_orders }}</h2>
+            <p>Completed Orders</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow text-center p-4">
+            <h2>KSh {{ total_revenue }}</h2>
+            <p>Total Revenue</p>
+        </div>
+    </div>
+  </div>
+
+
+    <h2 class="mt-5">Top 5 Popular Items</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Item</th>
+                <th>Category</th>
+                <th>Edits</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in popular_items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.category }}</td>
+                <td>{{ item.edit_count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

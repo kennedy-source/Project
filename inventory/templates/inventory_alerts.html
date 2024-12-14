@@ -1,0 +1,9 @@
+{% extends 'inventory/../base.html' %}
+{% block content %}
+<h2>Low Stock Alerts</h2>
+<ul>
+    {% for uniform in uniforms %}
+    <li>{{ uniform.name }} - Only {{ uniform.quantity }} left in stock!</li>
+    {% endfor %}
+</ul>
+{% endblock %}

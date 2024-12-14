@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Uniform{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow p-4">
+        <h1 class="text-center mb-4">Add New Uniform</h1>
+
+        <form method="POST" action="{% url 'add_uniform' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_name">Uniform Name</label>
+        {{ form.name }}
+    </div>
+    <div class="form-group">
+        <label for="id_category">Category</label>
+        {{ form.category }}
+    </div>
+    <div class="form-group">
+        <label for="id_size">Size</label>
+        {{ form.size }}
+    </div>
+    <div class="form-group">
+        <label for="id_price">Price</label>
+        {{ form.price }}
+    </div>
+    <div class="form-group">
+        <label for="id_quantity">Quantity</label>
+        {{ form.quantity }}
+    </div>
+    <button type="submit" class="btn btn-primary">Add Uniform</button>
+</form>
+
+    </div>
+</div>
+{% endblock %}
+
